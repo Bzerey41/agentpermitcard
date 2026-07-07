@@ -294,6 +294,9 @@ Logs:
   </div>
 
   <div id="generatedCard" class="generated-card" style="display: none;"></div>
+      <button id="copyCardBtn" type="button" onclick="copyCard()" style="display: none; margin-top: 16px;">
+  Copy card
+</button>
 </section>
 
 <section class="cta">
@@ -352,7 +355,19 @@ ${logs || "- Not defined"}`;
     const generatedCard = document.getElementById("generatedCard");
     generatedCard.textContent = card;
     generatedCard.style.display = "block";
+    const copyCardBtn = document.getElementById("copyCardBtn");
+copyCardBtn.style.display = "inline-block";
+copyCardBtn.textContent = "Copy card";
+    function copyCard() {
+  const generatedCard = document.getElementById("generatedCard");
+  const copyCardBtn = document.getElementById("copyCardBtn");
+
+  navigator.clipboard.writeText(generatedCard.textContent).then(() => {
+    copyCardBtn.textContent = "Copied!";
+  });
+}
   }
+  
 </script>
 
 </body>
