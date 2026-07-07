@@ -228,7 +228,24 @@
       background: #f9fafb;
       border-color: #d1d5db;
     }
-
+    
+    .approval-rule {
+      margin-top: 16px;
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      border-radius: 16px;
+      padding: 18px;
+    }
+    
+    .approval-rule h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+    
+    .approval-rule p {
+      margin: 0;
+      color: #374151;
+    }
     input {
       padding: 14px 16px;
       border-radius: 10px;
@@ -527,7 +544,12 @@ Data access:
 ${makePlainList(dataAccess)}
 
 Logs:
-${makePlainList(logs)}`;
+${makePlainList(logs)}
+
+Approval rule:
+The agent may act automatically only inside the "Can do" section.
+Anything under "Needs approval" must be reviewed by a human before execution.
+Anything under "Cannot do" must be blocked completely.`;
 
     const generatedCard = document.getElementById("generatedCard");
 
@@ -562,6 +584,14 @@ ${makePlainList(logs)}`;
           <h3>⚫ Logs</h3>
           <ul>${makeHtmlList(logs)}</ul>
         </div>
+      </div>
+            <div class="approval-rule">
+        <h3>✅ Approval rule</h3>
+        <p>
+          The agent may act automatically only inside the <strong>Can do</strong> section.
+          Anything under <strong>Needs approval</strong> must be reviewed by a human before execution.
+          Anything under <strong>Cannot do</strong> must be blocked completely.
+        </p>
       </div>
     `;
 
