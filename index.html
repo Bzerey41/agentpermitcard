@@ -311,9 +311,49 @@ Logs:
 </section>
   </main>
 
- <div class="footer">
+<div class="footer">
   <div>© 2026 Agent Permit Card</div>
   <div>Built by Bedirhan Zerey</div>
 </div>
+
+<script>
+  function formatList(text) {
+    return text
+      .split("\n")
+      .map(item => item.trim())
+      .filter(item => item.length > 0)
+      .map(item => "- " + item)
+      .join("\n");
+  }
+
+  function generateCard() {
+    const agentName = document.getElementById("agentName").value.trim() || "Unnamed Agent";
+    const canDo = formatList(document.getElementById("canDo").value);
+    const needsApproval = formatList(document.getElementById("needsApproval").value);
+    const cannotDo = formatList(document.getElementById("cannotDo").value);
+    const logs = formatList(document.getElementById("logs").value);
+
+    const card = `Agent Permit Card
+
+Agent: ${agentName}
+
+Can do:
+${canDo || "- Not defined"}
+
+Needs approval:
+${needsApproval || "- Not defined"}
+
+Cannot do:
+${cannotDo || "- Not defined"}
+
+Logs:
+${logs || "- Not defined"}`;
+
+    const generatedCard = document.getElementById("generatedCard");
+    generatedCard.textContent = card;
+    generatedCard.style.display = "block";
+  }
+</script>
+
 </body>
 </html>
