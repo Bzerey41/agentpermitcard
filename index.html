@@ -455,7 +455,11 @@
       What must be logged?
       <textarea id="logs" placeholder="Every draft is saved&#10;Every approved action is recorded"></textarea>
     </label>
-
+    
+    <button type="button" onclick="fillSampleData()" style="background: #111827;">
+      Use sample data
+    </button>
+    
     <button type="button" onclick="generateCard()">Generate card</button>
   </div>
 
@@ -522,7 +526,50 @@
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&#039;");
   }
+    function fillSampleData() {
+  document.getElementById("agentName").value = "E-commerce Support Agent";
 
+  document.getElementById("canDo").value =
+    "Read incoming Zendesk tickets\n" +
+    "Tag tickets by customer intent\n" +
+    "Draft replies for shipment status questions\n" +
+    "Approve returns under 1,000 TL if the item is marked as unused\n" +
+    "Start the return process for low-risk approved returns";
+
+  document.getElementById("needsApproval").value =
+    "Returns or exchanges over 1,000 TL\n" +
+    "Address changes after the order has shipped\n" +
+    "Discount codes or gift vouchers for compensation\n" +
+    "Any unusual case that does not match support rules";
+
+  document.getElementById("cannotDo").value =
+    "Delete customer accounts\n" +
+    "Delete previous support tickets\n" +
+    "Modify official invoice records\n" +
+    "Access unmasked payment or credit card data\n" +
+    "Issue refunds above the approval limit without human approval";
+
+  document.getElementById("dataAccess").value =
+    "Zendesk ticket content\n" +
+    "Customer name and contact information\n" +
+    "Order status\n" +
+    "Shipment status\n" +
+    "Return eligibility status\n" +
+    "Product usage condition\n" +
+    "Masked payment information only";
+
+  document.getElementById("logs").value =
+    "Zendesk ticket ID\n" +
+    "Suggested action\n" +
+    "Final action taken\n" +
+    "Whether approval was required\n" +
+    "Approving manager if applicable\n" +
+    "Date and time of approval\n" +
+    "Reason for the agent recommendation\n" +
+    "Blocked or rejected actions";
+
+  generateCard();
+}
   function generateCard() {
     const agentName = document.getElementById("agentName").value.trim() || "Unnamed Agent";
     const canDo = formatList(document.getElementById("canDo").value);
