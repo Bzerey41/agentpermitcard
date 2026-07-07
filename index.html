@@ -546,6 +546,14 @@
   <button id="copyCardBtn" type="button" onclick="copyCard()" style="display: none; margin-top: 16px;">
     Copy card
   </button>
+    <button
+  id="downloadMarkdownBtn"
+  type="button"
+  onclick="downloadMarkdownCard()"
+  style="display: none; margin-top: 16px; margin-left: 10px; background: #111827;"
+>
+  Download Markdown
+</button>
 </section>
 
 <section class="cta">
@@ -820,35 +828,39 @@
     const logs = formatList(document.getElementById("logs").value);
     const reviewNotes = formatList(document.getElementById("reviewNotes").value);
 
-    plainCardText = `Agent Permit Card
+plainCardText = `# Agent Permit Card
 
-Agent: ${agentName}
-
-Purpose:
+## Agent
+${agentName}
+    
+## Purpose
 ${purpose}
-
-Can do:
+    
+## Can do
 ${makePlainList(canDo)}
-
-Needs approval:
+    
+## Needs approval
 ${makePlainList(needsApproval)}
-
-Cannot do:
+    
+## Cannot do
 ${makePlainList(cannotDo)}
-
-Data access:
+    
+## Data access
 ${makePlainList(dataAccess)}
-
-Logs:
+    
+## Logs
 ${makePlainList(logs)}
-
-Approval rule:
-The agent may act automatically only inside the "Can do" section.
-Anything under "Needs approval" must be reviewed by a human before execution.
-Anything under "Cannot do" must be blocked completely.
-
-Review notes:
-${makePlainList(reviewNotes)}`;
+    
+## Approval rule
+The agent may act automatically only inside the **Can do** section.
+    
+Anything under **Needs approval** must be reviewed by a human before execution.
+    
+Anything under **Cannot do** must be blocked completely.
+    
+## Review notes
+${makePlainList(reviewNotes)}
+`;
 
     const generatedCard = document.getElementById("generatedCard");
 
@@ -910,6 +922,9 @@ ${makePlainList(reviewNotes)}`;
     const copyCardBtn = document.getElementById("copyCardBtn");
     copyCardBtn.style.display = "inline-block";
     copyCardBtn.textContent = "Copy card";
+
+    const downloadMarkdownBtn = document.getElementById("downloadMarkdownBtn");
+    downloadMarkdownBtn.style.display = "inline-block";
   }
 
   function copyCard() {
@@ -919,6 +934,35 @@ ${makePlainList(reviewNotes)}`;
       copyCardBtn.textContent = "Copied!";
     });
   }
+  function downloadMarkdownCard() {
+  if (!plainCardText) {
+    alert("Please generate a card first.");
+    return;
+  }
+
+  const agentName = document.getElementById("agentName").value.trim() || "agent-permit-card";
+
+  const safeFileName = agentName
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  const blob = new Blob([plainCardText], {
+    type: "text/markdown;charset=utf-8"
+  });
+
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `${safeFileName || "agent-permit-card"}.md`;
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  URL.revokeObjectURL(url);
+}
 </script>
 
 </body>
