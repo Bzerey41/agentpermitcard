@@ -309,30 +309,64 @@
     </section>
 
     <section>
-      <h2>Example</h2>
-      <div class="card-example">Agent Permit Card
-
-Agent: Email Assistant
-
-Can do:
-- Read incoming emails
-- Draft replies
-- Summarize attachments
-
-Needs approval:
-- Send an email
-- Forward a document
-- Update customer records
-
-Cannot do:
-- Delete emails
-- Access payment data
-- Send legal or financial statements
-
-Logs:
-- Every draft is saved
-- Every approved action is recorded
-- Every rejected action is tracked</div>
+      <h2>Example: Email Assistant</h2>
+      <p>
+        A simple permission card for an AI agent that helps with incoming emails.
+      </p>
+    
+      <div class="generated-card">
+        <div class="permit-header">
+          <div class="permit-title">Agent Permit Card</div>
+          <div class="permit-agent">Email Assistant</div>
+        </div>
+    
+        <div class="permit-grid">
+          <div class="permit-block block-can">
+            <h3>🟢 Can do</h3>
+            <ul>
+              <li>Read incoming emails</li>
+              <li>Draft replies</li>
+              <li>Summarize attachments</li>
+            </ul>
+          </div>
+    
+          <div class="permit-block block-approval">
+            <h3>🟡 Needs approval</h3>
+            <ul>
+              <li>Send an email</li>
+              <li>Forward a document</li>
+              <li>Update customer records</li>
+            </ul>
+          </div>
+    
+          <div class="permit-block block-cannot">
+            <h3>🔴 Cannot do</h3>
+            <ul>
+              <li>Delete emails</li>
+              <li>Access payment data</li>
+              <li>Send legal or financial statements</li>
+            </ul>
+          </div>
+    
+          <div class="permit-block block-data">
+            <h3>🔵 Data access</h3>
+            <ul>
+              <li>Email content</li>
+              <li>Sender name and address</li>
+              <li>Attachments marked as safe</li>
+            </ul>
+          </div>
+    
+          <div class="permit-block block-logs">
+            <h3>⚫ Logs</h3>
+            <ul>
+              <li>Every draft is saved</li>
+              <li>Every approved action is recorded</li>
+              <li>Every rejected action is tracked</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section>
