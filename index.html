@@ -148,7 +148,54 @@
       font-family: Arial, Helvetica, sans-serif;
       resize: vertical;
     }
+      .description-box {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+     .description-box label {
+      display: grid;
+      gap: 8px;
+      font-weight: 700;
+    }
 
+    .description-box textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      font-size: 16px;
+      font-family: Arial, Helvetica, sans-serif;
+      resize: vertical;
+    }
+    .description-box p {
+      margin-top: 0;
+      color: #4b5563;
+    }
+
+    .description-textarea {
+      min-height: 150px;
+    }
+
+    .helper-text {
+      font-size: 14px;
+      color: #6b7280;
+      margin-top: 6px;
+      font-weight: 400;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .dark-button {
+      background: #111827;
+    }
     .generated-card {
       margin-top: 28px;
       background: #ffffff;
@@ -419,16 +466,46 @@
     </section>
 
     <section id="generator">
-  <h2>Try the early generator</h2>
-<p>
-  Fill in the fields below to create a readable permission card for your AI agent.
-  The card can be copied and shared with your team as a first draft.
-</p>
+  <h2>Try the AI-assisted generator</h2>
+  <p>
+    Describe your AI agent in plain English. Agent Permit Card will turn it into
+    a structured permission draft that you can review, edit, and copy.
+  </p>
+
+  <div class="description-box">
+    <label>
+      Describe your agent
+      <textarea
+        id="agentDescription"
+        class="description-textarea"
+        placeholder="I’m building an AI support agent connected to Zendesk and Shopify. It should answer simple refund questions and draft replies. It can check order and shipment status. It must ask approval before issuing refunds over $100 or changing customer records. It must never access full payment card data."
+      ></textarea>
+      <span class="helper-text">
+        Mention what the agent does, what tools it connects to, what it can do automatically,
+        and what should require human approval.
+      </span>
+    </label>
+
+    <div class="button-row" style="margin-top: 16px;">
+      <button type="button" onclick="fillSampleDescription()" class="dark-button">
+        Use sample description
+      </button>
+
+      <button type="button" onclick="generateDraftFromDescription()">
+        Generate draft
+      </button>
+    </div>
+  </div>
 
   <div class="generator">
     <label>
       Agent name
       <input id="agentName" type="text" placeholder="Email Assistant" />
+    </label>
+
+    <label>
+      Purpose
+      <textarea id="purpose" placeholder="Help the support team answer customer questions safely and consistently."></textarea>
     </label>
 
     <label>
@@ -445,28 +522,30 @@
       What must the agent never do?
       <textarea id="cannotDo" placeholder="Delete emails&#10;Access payment data&#10;Send legal statements"></textarea>
     </label>
-    
+
     <label>
-    What data can the agent access?
+      What data can the agent access?
       <textarea id="dataAccess" placeholder="Zendesk ticket content&#10;Order status&#10;Shipment status&#10;Masked payment information only"></textarea>
     </label>
-  
+
     <label>
       What must be logged?
       <textarea id="logs" placeholder="Every draft is saved&#10;Every approved action is recorded"></textarea>
     </label>
-    
-    <button type="button" onclick="fillSampleData()" style="background: #111827;">
-      Use sample data
-    </button>
-    
+
+    <label>
+      Review notes
+      <textarea id="reviewNotes" placeholder="Confirm approval limits&#10;Confirm whether the agent can send messages directly&#10;Confirm log retention period"></textarea>
+    </label>
+
     <button type="button" onclick="generateCard()">Generate card</button>
   </div>
 
   <div id="generatedCard" class="generated-card" style="display: none;"></div>
-      <button id="copyCardBtn" type="button" onclick="copyCard()" style="display: none; margin-top: 16px;">
-  Copy card
-</button>
+
+  <button id="copyCardBtn" type="button" onclick="copyCard()" style="display: none; margin-top: 16px;">
+    Copy card
+  </button>
 </section>
 
 <section class="cta">
@@ -526,61 +605,227 @@
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&#039;");
   }
-    function fillSampleData() {
-  document.getElementById("agentName").value = "E-commerce Support Agent";
 
-  document.getElementById("canDo").value =
-    "Read incoming Zendesk tickets\n" +
-    "Tag tickets by customer intent\n" +
-    "Draft replies for shipment status questions\n" +
-    "Approve returns under 1,000 TL if the item is marked as unused\n" +
-    "Start the return process for low-risk approved returns";
+  function hasAny(text, words) {
+    return words.some(word => text.includes(word));
+  }
 
-  document.getElementById("needsApproval").value =
-    "Returns or exchanges over 1,000 TL\n" +
-    "Address changes after the order has shipped\n" +
-    "Discount codes or gift vouchers for compensation\n" +
-    "Any unusual case that does not match support rules";
+  function extractApprovalLimit(text) {
+    const moneyMatch = text.match(/(?:over|above|more than|greater than)\s*([$€£₺]?\s?\d+[,.]?\d*)/i);
 
-  document.getElementById("cannotDo").value =
-    "Delete customer accounts\n" +
-    "Delete previous support tickets\n" +
-    "Modify official invoice records\n" +
-    "Access unmasked payment or credit card data\n" +
-    "Issue refunds above the approval limit without human approval";
+    if (moneyMatch && moneyMatch[1]) {
+      return moneyMatch[1].trim();
+    }
 
-  document.getElementById("dataAccess").value =
-    "Zendesk ticket content\n" +
-    "Customer name and contact information\n" +
-    "Order status\n" +
-    "Shipment status\n" +
-    "Return eligibility status\n" +
-    "Product usage condition\n" +
-    "Masked payment information only";
+    return "";
+  }
 
-  document.getElementById("logs").value =
-    "Zendesk ticket ID\n" +
-    "Suggested action\n" +
-    "Final action taken\n" +
-    "Whether approval was required\n" +
-    "Approving manager if applicable\n" +
-    "Date and time of approval\n" +
-    "Reason for the agent recommendation\n" +
-    "Blocked or rejected actions";
+  function fillSampleDescription() {
+    document.getElementById("agentDescription").value =
+      "I’m building an AI support agent connected to Zendesk and Shopify. " +
+      "It should answer simple refund questions and draft replies. " +
+      "It can check order and shipment status. " +
+      "It must ask approval before issuing refunds over $100 or changing customer records. " +
+      "It must never access full payment card data.";
 
-  generateCard();
-}
+    generateDraftFromDescription();
+  }
+
+  function generateDraftFromDescription() {
+    const description = document.getElementById("agentDescription").value.trim();
+    const text = description.toLowerCase();
+
+    if (description.length === 0) {
+      alert("Please describe your agent first.");
+      return;
+    }
+
+    let agentName = "AI Agent";
+    let purpose = "Help users complete tasks safely while following clear permission and approval rules.";
+
+    const canDo = [];
+    const needsApproval = [];
+    const cannotDo = [];
+    const dataAccess = [];
+    const logs = [];
+    const reviewNotes = [];
+
+    if (hasAny(text, ["support", "customer", "zendesk", "ticket"])) {
+      agentName = "Customer Support Agent";
+      purpose = "Help the support team answer customer questions using approved support and order context.";
+      canDo.push("Read incoming support tickets");
+      canDo.push("Classify customer intent");
+      canDo.push("Draft support replies");
+      dataAccess.push("Support ticket content");
+      dataAccess.push("Customer name and contact information");
+      logs.push("Ticket ID");
+      logs.push("Suggested reply or action");
+    }
+
+    if (hasAny(text, ["shopify", "order", "shipment", "shipping", "delivery"])) {
+      agentName = "E-commerce Support Agent";
+      purpose = "Help the support team answer order, shipment, return, and refund questions using e-commerce context.";
+      canDo.push("Check order status");
+      canDo.push("Check shipment status");
+      dataAccess.push("Order status");
+      dataAccess.push("Shipment status");
+      dataAccess.push("Return eligibility status");
+      logs.push("Order lookup");
+    }
+
+    if (hasAny(text, ["email", "gmail", "inbox"])) {
+      agentName = "Email Assistant";
+      purpose = "Help users review, summarize, and draft email responses safely.";
+      canDo.push("Read incoming emails");
+      canDo.push("Summarize email threads");
+      canDo.push("Draft email replies");
+      needsApproval.push("Send an email");
+      needsApproval.push("Forward an email or attachment");
+      cannotDo.push("Delete emails");
+      dataAccess.push("Email content");
+      dataAccess.push("Sender name and email address");
+      logs.push("Every generated draft");
+    }
+
+    if (hasAny(text, ["refund", "return", "exchange"])) {
+      canDo.push("Answer simple refund and return policy questions");
+      canDo.push("Draft refund or return responses");
+
+      const approvalLimit = extractApprovalLimit(description);
+
+      if (approvalLimit.length > 0) {
+        needsApproval.push("Issue refunds over " + approvalLimit);
+        cannotDo.push("Issue refunds over " + approvalLimit + " without human approval");
+      } else {
+        needsApproval.push("Issue refunds");
+        reviewNotes.push("Confirm the exact refund amount that requires human approval");
+      }
+
+      needsApproval.push("Approve unusual refund or return cases");
+      dataAccess.push("Refund status");
+      logs.push("Refund-related recommendation");
+    }
+
+    if (hasAny(text, ["payment", "credit card", "card data", "billing"])) {
+      cannotDo.push("Access full payment card data");
+      cannotDo.push("Modify payment methods");
+      dataAccess.push("Masked payment information only");
+      logs.push("Payment-related blocked actions");
+    }
+
+    if (hasAny(text, ["customer record", "customer records", "crm", "salesforce", "hubspot"])) {
+      needsApproval.push("Update customer records");
+      cannotDo.push("Delete customer records");
+      dataAccess.push("Customer profile information required for the task");
+      logs.push("Customer record lookup or suggested change");
+    }
+
+    if (hasAny(text, ["calendar", "meeting", "schedule"])) {
+      agentName = "Calendar Assistant";
+      purpose = "Help users plan, summarize, and draft scheduling actions with human approval for changes.";
+      canDo.push("Read calendar availability");
+      canDo.push("Draft meeting suggestions");
+      needsApproval.push("Create, move, or cancel meetings");
+      cannotDo.push("Invite external guests without approval");
+      dataAccess.push("Calendar events and availability");
+      logs.push("Calendar lookup");
+      logs.push("Suggested scheduling action");
+    }
+
+    if (hasAny(text, ["database", "sql", "internal data", "dashboard"])) {
+      agentName = "Internal Data Assistant";
+      purpose = "Help users query and summarize internal data while protecting sensitive information.";
+      canDo.push("Summarize approved internal data");
+      canDo.push("Draft analysis based on permitted datasets");
+      needsApproval.push("Run queries that affect production data");
+      cannotDo.push("Delete or overwrite database records");
+      cannotDo.push("Expose sensitive personal data");
+      dataAccess.push("Approved internal datasets");
+      logs.push("Dataset accessed");
+      logs.push("Query or analysis request");
+    }
+
+    if (hasAny(text, ["code", "coding", "github", "repository", "repo", "pull request"])) {
+      agentName = "Coding Assistant";
+      purpose = "Help developers understand, draft, and review code changes with clear approval rules.";
+      canDo.push("Read repository files");
+      canDo.push("Suggest code changes");
+      canDo.push("Draft pull request descriptions");
+      needsApproval.push("Commit code to a repository");
+      needsApproval.push("Open or merge pull requests");
+      cannotDo.push("Push directly to production branches");
+      cannotDo.push("Modify secrets or environment variables");
+      dataAccess.push("Repository files");
+      dataAccess.push("Issue and pull request metadata");
+      logs.push("Files reviewed");
+      logs.push("Suggested code changes");
+    }
+
+    if (canDo.length === 0) {
+      canDo.push("Draft responses or recommendations based on the user's request");
+      canDo.push("Summarize relevant information");
+      canDo.push("Ask clarifying questions when the request is incomplete");
+    }
+
+    if (needsApproval.length === 0) {
+      needsApproval.push("Take actions that affect customers, money, accounts, records, or external systems");
+      needsApproval.push("Send messages or make changes on behalf of a human");
+    }
+
+    if (cannotDo.length === 0) {
+      cannotDo.push("Take irreversible actions without human approval");
+      cannotDo.push("Access data unrelated to the task");
+      cannotDo.push("Bypass approval rules");
+    }
+
+    if (dataAccess.length === 0) {
+      dataAccess.push("Only the minimum data required to complete the task");
+      dataAccess.push("User-provided context");
+    }
+
+    if (logs.length === 0) {
+      logs.push("User request");
+      logs.push("Agent recommendation");
+      logs.push("Final action taken");
+      logs.push("Whether approval was required");
+    }
+
+    reviewNotes.push("Confirm whether the agent can act directly or only draft recommendations");
+    reviewNotes.push("Confirm log retention period");
+    reviewNotes.push("Confirm who is allowed to approve restricted actions");
+
+    document.getElementById("agentName").value = agentName;
+    document.getElementById("purpose").value = purpose;
+    document.getElementById("canDo").value = removeDuplicates(canDo).join("\n");
+    document.getElementById("needsApproval").value = removeDuplicates(needsApproval).join("\n");
+    document.getElementById("cannotDo").value = removeDuplicates(cannotDo).join("\n");
+    document.getElementById("dataAccess").value = removeDuplicates(dataAccess).join("\n");
+    document.getElementById("logs").value = removeDuplicates(logs).join("\n");
+    document.getElementById("reviewNotes").value = removeDuplicates(reviewNotes).join("\n");
+
+    generateCard();
+  }
+
+  function removeDuplicates(items) {
+    return [...new Set(items)];
+  }
+
   function generateCard() {
     const agentName = document.getElementById("agentName").value.trim() || "Unnamed Agent";
+    const purpose = document.getElementById("purpose").value.trim() || "Not defined";
     const canDo = formatList(document.getElementById("canDo").value);
     const needsApproval = formatList(document.getElementById("needsApproval").value);
     const cannotDo = formatList(document.getElementById("cannotDo").value);
     const dataAccess = formatList(document.getElementById("dataAccess").value);
     const logs = formatList(document.getElementById("logs").value);
+    const reviewNotes = formatList(document.getElementById("reviewNotes").value);
 
     plainCardText = `Agent Permit Card
 
 Agent: ${agentName}
+
+Purpose:
+${purpose}
 
 Can do:
 ${makePlainList(canDo)}
@@ -600,7 +845,10 @@ ${makePlainList(logs)}
 Approval rule:
 The agent may act automatically only inside the "Can do" section.
 Anything under "Needs approval" must be reviewed by a human before execution.
-Anything under "Cannot do" must be blocked completely.`;
+Anything under "Cannot do" must be blocked completely.
+
+Review notes:
+${makePlainList(reviewNotes)}`;
 
     const generatedCard = document.getElementById("generatedCard");
 
@@ -611,6 +859,11 @@ Anything under "Cannot do" must be blocked completely.`;
       </div>
 
       <div class="permit-grid">
+        <div class="permit-block block-data">
+          <h3>🎯 Purpose</h3>
+          <p>${escapeHtml(purpose)}</p>
+        </div>
+
         <div class="permit-block block-can">
           <h3>🟢 Can do</h3>
           <ul>${makeHtmlList(canDo)}</ul>
@@ -636,13 +889,19 @@ Anything under "Cannot do" must be blocked completely.`;
           <ul>${makeHtmlList(logs)}</ul>
         </div>
       </div>
-            <div class="approval-rule">
+
+      <div class="approval-rule">
         <h3>✅ Approval rule</h3>
         <p>
           The agent may act automatically only inside the <strong>Can do</strong> section.
           Anything under <strong>Needs approval</strong> must be reviewed by a human before execution.
           Anything under <strong>Cannot do</strong> must be blocked completely.
         </p>
+      </div>
+
+      <div class="approval-rule">
+        <h3>📝 Review notes</h3>
+        <ul>${makeHtmlList(reviewNotes)}</ul>
       </div>
     `;
 
