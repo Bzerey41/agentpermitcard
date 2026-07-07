@@ -49,7 +49,34 @@
       max-width: 720px;
       margin: 0 auto;
     }
-
+    .hero-actions {
+      margin-top: 32px;
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .primary-link,
+    .secondary-link {
+      display: inline-block;
+      padding: 14px 22px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 800;
+    }
+    
+    .primary-link {
+      background: #4f46e5;
+      color: white;
+    }
+    
+    .secondary-link {
+      background: white;
+      color: #111827;
+      border: 1px solid #d1d5db;
+    }
     section {
       background: white;
       border: 1px solid #e5e7eb;
@@ -241,14 +268,22 @@
 </head>
 
 <body>
-  <div class="hero">
-    <div class="badge">AI Agent Permissions</div>
-    <h1>Agent Permit Card</h1>
-    <p class="subtitle">
-      A simple permission card for AI agents. Define what your AI agent can do,
-      what needs approval, what is forbidden, and what must be logged.
-    </p>
-  </div>
+      <div class="hero">
+      <div class="badge">AI Agent Permissions</div>
+      <h1>Give every AI agent a clear permission card.</h1>
+      <p class="subtitle">
+        Agent Permit Card helps builders define what an AI agent can do,
+        what needs human approval, what is forbidden, what data it can access,
+        and what must be logged.
+      </p>
+    
+      <div class="hero-actions">
+        <a href="#generator" class="primary-link">Try generator</a>
+        <a href="https://tally.so/r/A75Arl" target="_blank" rel="noopener" class="secondary-link">
+          Join waitlist
+        </a>
+      </div>
+    </div>
 
   <main class="container">
     <section>
@@ -328,7 +363,7 @@ Logs:
       </ul>
     </section>
 
-    <section>
+    <section id="generator">
   <h2>Try the early generator</h2>
   <p>
     Create a simple draft permission card for your AI agent.
