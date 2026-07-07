@@ -228,16 +228,42 @@ Logs:
     </section>
 
     <section>
-      <h2>Coming soon</h2>
-      <p>
-        A simple generator for creating Agent Permit Cards for your AI agents.
-      </p>
-      <ul>
-        <li>Describe your agent.</li>
-        <li>Get a clear permission card.</li>
-        <li>Share it with your team.</li>
-      </ul>
-    </section>
+  <h2>Try the early generator</h2>
+  <p>
+    Create a simple draft permission card for your AI agent.
+  </p>
+
+  <div class="generator">
+    <label>
+      Agent name
+      <input id="agentName" type="text" placeholder="Email Assistant" />
+    </label>
+
+    <label>
+      What can the agent do?
+      <textarea id="canDo" placeholder="Read incoming emails&#10;Draft replies&#10;Summarize attachments"></textarea>
+    </label>
+
+    <label>
+      What needs human approval?
+      <textarea id="needsApproval" placeholder="Send an email&#10;Forward a document&#10;Update customer records"></textarea>
+    </label>
+
+    <label>
+      What must the agent never do?
+      <textarea id="cannotDo" placeholder="Delete emails&#10;Access payment data&#10;Send legal statements"></textarea>
+    </label>
+
+    <label>
+      What must be logged?
+      <textarea id="logs" placeholder="Every draft is saved&#10;Every approved action is recorded"></textarea>
+    </label>
+
+    <button type="button" onclick="generateCard()">Generate card</button>
+  </div>
+
+  <div id="generatedCard" class="generated-card" style="display: none;"></div>
+</section>
 
 <section class="cta">
   <h2>Get early access</h2>
