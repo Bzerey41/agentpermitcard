@@ -284,7 +284,12 @@ Logs:
       What must the agent never do?
       <textarea id="cannotDo" placeholder="Delete emails&#10;Access payment data&#10;Send legal statements"></textarea>
     </label>
-
+    
+    <label>
+    What data can the agent access?
+      <textarea id="dataAccess" placeholder="Zendesk ticket content&#10;Order status&#10;Shipment status&#10;Masked payment information only"></textarea>
+    </label>
+  
     <label>
       What must be logged?
       <textarea id="logs" placeholder="Every draft is saved&#10;Every approved action is recorded"></textarea>
@@ -334,6 +339,7 @@ Logs:
     const canDo = formatList(document.getElementById("canDo").value);
     const needsApproval = formatList(document.getElementById("needsApproval").value);
     const cannotDo = formatList(document.getElementById("cannotDo").value);
+    const dataAccess = formatList(document.getElementById("dataAccess").value);
     const logs = formatList(document.getElementById("logs").value);
 
     const card = `Agent Permit Card
@@ -349,9 +355,11 @@ ${needsApproval || "- Not defined"}
 Cannot do:
 ${cannotDo || "- Not defined"}
 
+Data access:
+${dataAccess || "- Not defined"}
+
 Logs:
 ${logs || "- Not defined"}`;
-
     const generatedCard = document.getElementById("generatedCard");
     generatedCard.textContent = card;
     generatedCard.style.display = "block";
