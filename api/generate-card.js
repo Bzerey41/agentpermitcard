@@ -50,50 +50,32 @@ module.exports = async function handler(req, res) {
               type: "object",
               additionalProperties: false,
               properties: {
-                agent_name: {
-                  type: "string"
-                },
-                purpose: {
-                  type: "string"
-                },
+                agent_name: { type: "string" },
+                purpose: { type: "string" },
                 can_do: {
                   type: "array",
-                  items: {
-                    type: "string"
-                  }
+                  items: { type: "string" }
                 },
                 needs_approval: {
                   type: "array",
-                  items: {
-                    type: "string"
-                  }
+                  items: { type: "string" }
                 },
                 cannot_do: {
                   type: "array",
-                  items: {
-                    type: "string"
-                  }
+                  items: { type: "string" }
                 },
                 data_access: {
                   type: "array",
-                  items: {
-                    type: "string"
-                  }
+                  items: { type: "string" }
                 },
                 logs: {
                   type: "array",
-                  items: {
-                    type: "string"
-                  }
+                  items: { type: "string" }
                 },
-                approval_rule: {
-                  type: "string"
-                },
+                approval_rule: { type: "string" },
                 review_notes: {
                   type: "array",
-                  items: {
-                    type: "string"
-                  }
+                  items: { type: "string" }
                 }
               },
               required: [
@@ -124,17 +106,23 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const outputText = data.output_text;
+    const outputText = extractOutputText(data);
 
     if (!outputText) {
-      console.error("No output_text returned:", data);
+      console.error("No output text found:", data);
 
       return res.status(500).json({
-        error: "No structured output returned from OpenAI."
+        error: "No structured output text returned from OpenAI."
       });
     }
 
-    const card = JSON.parse(outputText);
+    const cleanedOutput = outputText
+      .replace(/^```json\s*/i, "")
+      .replace(/^```\s*/i, "")
+      .replace(/```$/i, "")
+      .trim();
+
+    const card = JSON.parse(cleanedOutput);
 
     return res.status(200).json(card);
   } catch (error) {
@@ -145,3 +133,29 @@ module.exports = async function handler(req, res) {
     });
   }
 };
+
+function extractOutputText(data) {
+  if (typeof data.output_text === "string" && data.output_text.trim().length > 0) {
+    return data.output_text.trim();
+  }
+
+  const parts = [];
+
+  if (Array.isArray(data.output)) {
+    for (const item of data.output) {
+      if (Array.isArray(item.content)) {
+        for (const contentItem of item.content) {
+          if (typeof contentItem.text === "string") {
+            parts.push(contentItem.text);
+          }
+
+          if (typeof contentItem.content === "string") {
+            parts.push(contentItem.content);
+          }
+        }
+      }
+    }
+  }
+
+  return parts.join("\n").trim();
+}
