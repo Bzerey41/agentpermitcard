@@ -351,6 +351,14 @@
       white-space: nowrap;
     }
 
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
     .nav-links {
       display: flex;
       align-items: center;
@@ -375,6 +383,31 @@
       background: #eef2ff;
       color: #4338ca;
       border-color: #c7d2fe;
+    }
+
+    .language-toggle {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid #e5e7eb;
+      border-radius: 999px;
+      background: #f9fafb;
+    }
+
+    .language-button {
+      border: none;
+      background: transparent;
+      color: #6b7280;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .language-button.active {
+      background: #4f46e5;
+      color: #ffffff;
     }
 
     .page-view {
@@ -408,28 +441,35 @@
         Agent Permit Card
       </button>
 
-      <nav class="nav-links" aria-label="Main navigation">
-        <button type="button" class="nav-link active" data-nav="home" onclick="showPage('home')">Home</button>
-        <button type="button" class="nav-link" data-nav="generator" onclick="showPage('generator')">Generator</button>
-        <button type="button" class="nav-link" data-nav="examples" onclick="showPage('examples')">Examples</button>
-        <button type="button" class="nav-link" data-nav="why" onclick="showPage('why')">Why it matters</button>
-        <button type="button" class="nav-link" data-nav="waitlist" onclick="showPage('waitlist')">Waitlist</button>
-      </nav>
+      <div class="nav-actions">
+        <nav class="nav-links" aria-label="Main navigation">
+          <button type="button" class="nav-link active" data-nav="home" data-i18n="nav.home" onclick="showPage('home')">Home</button>
+          <button type="button" class="nav-link" data-nav="generator" data-i18n="nav.generator" onclick="showPage('generator')">Generator</button>
+          <button type="button" class="nav-link" data-nav="examples" data-i18n="nav.examples" onclick="showPage('examples')">Examples</button>
+          <button type="button" class="nav-link" data-nav="why" data-i18n="nav.why" onclick="showPage('why')">Why it matters</button>
+          <button type="button" class="nav-link" data-nav="waitlist" data-i18n="nav.waitlist" onclick="showPage('waitlist')">Waitlist</button>
+        </nav>
+
+        <div class="language-toggle" aria-label="Language selector">
+          <button type="button" class="language-button active" data-language-button="en" onclick="setLanguage('en')">EN</button>
+          <button type="button" class="language-button" data-language-button="tr" onclick="setLanguage('tr')">TR</button>
+        </div>
+      </div>
     </div>
   </header>
 
       <div class="hero page-view active" data-page="home">
-      <div class="badge">AI Agent Permissions</div>
-      <h1>Give every AI agent a clear permission card.</h1>
-      <p class="subtitle">
+      <div class="badge" data-i18n="hero.badge">AI Agent Permissions</div>
+      <h1 data-i18n="hero.title">Give every AI agent a clear permission card.</h1>
+      <p class="subtitle" data-i18n="hero.subtitle">
         Agent Permit Card helps builders define what an AI agent can do,
         what needs human approval, what is forbidden, what data it can access,
         and what must be logged.
       </p>
     
       <div class="hero-actions">
-        <a href="#generator" class="primary-link" onclick="showPage('generator')">Try generator</a>
-        <a href="#waitlist" class="secondary-link" onclick="showPage('waitlist')">
+        <a href="#generator" class="primary-link" data-i18n="hero.primary" onclick="showPage('generator')">Try generator</a>
+        <a href="#waitlist" class="secondary-link" data-i18n="hero.secondary" onclick="showPage('waitlist')">
           Join waitlist
         </a>
       </div>
@@ -437,78 +477,78 @@
 
   <main class="container">
     <section class="page-view active" data-page="home">
-      <h2>What is an Agent Permit Card?</h2>
-      <p>
+      <h2 data-i18n="home.title">What is an Agent Permit Card?</h2>
+      <p data-i18n="home.p1">
         An Agent Permit Card is a simple permission profile for an AI agent.
       </p>
-      <p>It shows:</p>
+      <p data-i18n="home.p2">It shows:</p>
       <ul>
-        <li>What the agent can do</li>
-        <li>What requires human approval</li>
-        <li>What the agent must never do</li>
-        <li>What data the agent can access</li>
-        <li>What actions must be logged</li>
+        <li data-i18n="home.li1">What the agent can do</li>
+        <li data-i18n="home.li2">What requires human approval</li>
+        <li data-i18n="home.li3">What the agent must never do</li>
+        <li data-i18n="home.li4">What data the agent can access</li>
+        <li data-i18n="home.li5">What actions must be logged</li>
       </ul>
-      <p>
+      <p data-i18n="home.p3">
         Before an AI agent acts, it should carry a permit card.
       </p>
     </section>
 
     <section class="page-view" data-page="examples">
-      <h2>Example: Email Assistant</h2>
-      <p>
+      <h2 data-i18n="examples.title">Example: Email Assistant</h2>
+      <p data-i18n="examples.p1">
         A simple permission card for an AI agent that helps with incoming emails.
       </p>
     
       <div class="generated-card">
         <div class="permit-header">
-          <div class="permit-title">Agent Permit Card</div>
-          <div class="permit-agent">Email Assistant</div>
+          <div class="permit-title" data-i18n="card.title">Agent Permit Card</div>
+          <div class="permit-agent" data-i18n="examples.agent">Email Assistant</div>
         </div>
     
         <div class="permit-grid">
           <div class="permit-block block-can">
-            <h3>🟢 Can do</h3>
+            <h3 data-i18n="examples.headingCanDo">🟢 Can do</h3>
             <ul>
-              <li>Read incoming emails</li>
-              <li>Draft replies</li>
-              <li>Summarize attachments</li>
+              <li data-i18n="examples.can1">Read incoming emails</li>
+              <li data-i18n="examples.can2">Draft replies</li>
+              <li data-i18n="examples.can3">Summarize attachments</li>
             </ul>
           </div>
     
           <div class="permit-block block-approval">
-            <h3>🟡 Needs approval</h3>
+            <h3 data-i18n="examples.headingNeedsApproval">🟡 Needs approval</h3>
             <ul>
-              <li>Send an email</li>
-              <li>Forward a document</li>
-              <li>Update customer records</li>
+              <li data-i18n="examples.approval1">Send an email</li>
+              <li data-i18n="examples.approval2">Forward a document</li>
+              <li data-i18n="examples.approval3">Update customer records</li>
             </ul>
           </div>
     
           <div class="permit-block block-cannot">
-            <h3>🔴 Cannot do</h3>
+            <h3 data-i18n="examples.headingCannotDo">🔴 Cannot do</h3>
             <ul>
-              <li>Delete emails</li>
-              <li>Access payment data</li>
-              <li>Send legal or financial statements</li>
+              <li data-i18n="examples.cannot1">Delete emails</li>
+              <li data-i18n="examples.cannot2">Access payment data</li>
+              <li data-i18n="examples.cannot3">Send legal or financial statements</li>
             </ul>
           </div>
     
           <div class="permit-block block-data">
-            <h3>🔵 Data access</h3>
+            <h3 data-i18n="examples.headingDataAccess">🔵 Data access</h3>
             <ul>
-              <li>Email content</li>
-              <li>Sender name and address</li>
-              <li>Attachments marked as safe</li>
+              <li data-i18n="examples.data1">Email content</li>
+              <li data-i18n="examples.data2">Sender name and address</li>
+              <li data-i18n="examples.data3">Attachments marked as safe</li>
             </ul>
           </div>
     
           <div class="permit-block block-logs">
-            <h3>⚫ Logs</h3>
+            <h3 data-i18n="examples.headingLogs">⚫ Logs</h3>
             <ul>
-              <li>Every draft is saved</li>
-              <li>Every approved action is recorded</li>
-              <li>Every rejected action is tracked</li>
+              <li data-i18n="examples.logs1">Every draft is saved</li>
+              <li data-i18n="examples.logs2">Every approved action is recorded</li>
+              <li data-i18n="examples.logs3">Every rejected action is tracked</li>
             </ul>
           </div>
         </div>
@@ -516,64 +556,64 @@
     </section>
 
     <section class="page-view" data-page="why">
-      <h2>Why it matters</h2>
-      <p>
+      <h2 data-i18n="why.title">Why it matters</h2>
+      <p data-i18n="why.p1">
         AI agents are starting to access real tools: email, files, calendars,
         CRMs, databases, and internal workflows.
       </p>
-      <p>Without clear permissions, teams cannot easily answer:</p>
+      <p data-i18n="why.p2">Without clear permissions, teams cannot easily answer:</p>
       <ul>
-        <li>What did this agent do?</li>
-        <li>Was it allowed?</li>
-        <li>Who approved it?</li>
-        <li>Can we audit it later?</li>
+        <li data-i18n="why.li1">What did this agent do?</li>
+        <li data-i18n="why.li2">Was it allowed?</li>
+        <li data-i18n="why.li3">Who approved it?</li>
+        <li data-i18n="why.li4">Can we audit it later?</li>
       </ul>
-      <p>
+      <p data-i18n="why.p3">
         Agent Permit Card makes AI agent permissions easy to understand before
         anything goes wrong.
       </p>
     </section>
 
     <section class="page-view active" data-page="home">
-      <h2>For builders</h2>
-      <p>Use Agent Permit Card when designing:</p>
+      <h2 data-i18n="builders.title">For builders</h2>
+      <p data-i18n="builders.p1">Use Agent Permit Card when designing:</p>
       <ul>
-        <li>AI assistants</li>
-        <li>Customer support agents</li>
-        <li>Sales agents</li>
-        <li>Coding agents</li>
-        <li>Workflow automation agents</li>
-        <li>Internal company agents</li>
+        <li data-i18n="builders.li1">AI assistants</li>
+        <li data-i18n="builders.li2">Customer support agents</li>
+        <li data-i18n="builders.li3">Sales agents</li>
+        <li data-i18n="builders.li4">Coding agents</li>
+        <li data-i18n="builders.li5">Workflow automation agents</li>
+        <li data-i18n="builders.li6">Internal company agents</li>
       </ul>
     </section>
 
     <section id="generator" class="page-view" data-page="generator">
-  <h2>Try the AI-assisted generator</h2>
-  <p>
+  <h2 data-i18n="generator.title">Try the AI-assisted generator</h2>
+  <p data-i18n="generator.p1">
     Describe your AI agent in plain English. Agent Permit Card will turn it into
     a structured permission draft that you can review, edit, and copy.
   </p>
 
   <div class="description-box">
     <label>
-      Describe your agent
+      <span data-i18n="generator.describeLabel">Describe your agent</span>
       <textarea
         id="agentDescription"
         class="description-textarea"
-        placeholder="I’m building an AI support agent connected to Zendesk and Shopify. It should answer simple refund questions and draft replies. It can check order and shipment status. It must ask approval before issuing refunds over $100 or changing customer records. It must never access full payment card data."
+        placeholder="I’m building an AI support agent connected to Zendesk and Shopify. It should answer simple refund questions and draft replies. It can check order and shipment status. It must ask approval before issuing refunds over $100 or changing customer records. It must never access full payment card data." data-i18n-placeholder="placeholders.agentDescription"
       ></textarea>
-      <span class="helper-text">
+      <span class="helper-text" data-i18n="generator.helper">
         Mention what the agent does, what tools it connects to, what it can do automatically,
         and what should require human approval.
       </span>
     </label>
 
     <div class="button-row" style="margin-top: 16px;">
-      <button type="button" onclick="fillSampleDescription()" class="dark-button">
+      <button type="button" onclick="fillSampleDescription()" class="dark-button" data-i18n="generator.sampleButton">
         Use sample description
       </button>
 
-      <button id="generateDraftBtn" type="button" onclick="generateDraftFromDescription()">
+      <button id="generateDraftBtn" type="button" onclick="generateDraftFromDescription()" data-i18n="generator.generateDraft">
         Generate draft
       </button>
     </div>
@@ -581,56 +621,56 @@
 
   <div class="generator">
     <label>
-      Agent name
-      <input id="agentName" type="text" placeholder="Email Assistant" />
+      <span data-i18n="fields.agentName">Agent name</span>
+      <input id="agentName" type="text" placeholder="Email Assistant" data-i18n-placeholder="placeholders.agentName" />
     </label>
 
     <label>
-      Purpose
-      <textarea id="purpose" placeholder="Help the support team answer customer questions safely and consistently."></textarea>
+      <span data-i18n="fields.purpose">Purpose</span>
+      <textarea id="purpose" data-i18n-placeholder="placeholders.purpose" placeholder="Help the support team answer customer questions safely and consistently."></textarea>
     </label>
 
     <label>
-      What can the agent do?
-      <textarea id="canDo" placeholder="Read incoming emails&#10;Draft replies&#10;Summarize attachments"></textarea>
+      <span data-i18n="fields.canDo">What can the agent do?</span>
+      <textarea id="canDo" data-i18n-placeholder="placeholders.canDo" placeholder="Read incoming emails&#10;Draft replies&#10;Summarize attachments"></textarea>
     </label>
 
     <label>
-      What needs human approval?
-      <textarea id="needsApproval" placeholder="Send an email&#10;Forward a document&#10;Update customer records"></textarea>
+      <span data-i18n="fields.needsApproval">What needs human approval?</span>
+      <textarea id="needsApproval" data-i18n-placeholder="placeholders.needsApproval" placeholder="Send an email&#10;Forward a document&#10;Update customer records"></textarea>
     </label>
 
     <label>
-      What must the agent never do?
-      <textarea id="cannotDo" placeholder="Delete emails&#10;Access payment data&#10;Send legal statements"></textarea>
+      <span data-i18n="fields.cannotDo">What must the agent never do?</span>
+      <textarea id="cannotDo" data-i18n-placeholder="placeholders.cannotDo" placeholder="Delete emails&#10;Access payment data&#10;Send legal statements"></textarea>
     </label>
 
     <label>
-      What data can the agent access?
-      <textarea id="dataAccess" placeholder="Zendesk ticket content&#10;Order status&#10;Shipment status&#10;Masked payment information only"></textarea>
+      <span data-i18n="fields.dataAccess">What data can the agent access?</span>
+      <textarea id="dataAccess" data-i18n-placeholder="placeholders.dataAccess" placeholder="Zendesk ticket content&#10;Order status&#10;Shipment status&#10;Masked payment information only"></textarea>
     </label>
 
     <label>
-      What must be logged?
-      <textarea id="logs" placeholder="Every draft is saved&#10;Every approved action is recorded"></textarea>
+      <span data-i18n="fields.logs">What must be logged?</span>
+      <textarea id="logs" data-i18n-placeholder="placeholders.logs" placeholder="Every draft is saved&#10;Every approved action is recorded"></textarea>
     </label>
     
     <label>
-      Approval rule
-      <textarea id="approvalRule" placeholder="Human approval is required before issuing refunds over $100 or changing customer records."></textarea>
+      <span data-i18n="fields.approvalRule">Approval rule</span>
+      <textarea id="approvalRule" data-i18n-placeholder="placeholders.approvalRule" placeholder="Human approval is required before issuing refunds over $100 or changing customer records."></textarea>
     </label>
     
     <label>
-      Review notes
-      <textarea id="reviewNotes" placeholder="Confirm approval limits&#10;Confirm whether the agent can send messages directly&#10;Confirm log retention period"></textarea>
+      <span data-i18n="fields.reviewNotes">Review notes</span>
+      <textarea id="reviewNotes" data-i18n-placeholder="placeholders.reviewNotes" placeholder="Confirm approval limits&#10;Confirm whether the agent can send messages directly&#10;Confirm log retention period"></textarea>
     </label>
 
-    <button type="button" onclick="generateCard()">Generate card</button>
+    <button type="button" onclick="generateCard()" data-i18n="generator.generateCard">Generate card</button>
   </div>
 
   <div id="generatedCard" class="generated-card" style="display: none;"></div>
 
-  <button id="copyCardBtn" type="button" onclick="copyCard()" style="display: none; margin-top: 16px;">
+  <button id="copyCardBtn" type="button" onclick="copyCard()" style="display: none; margin-top: 16px;" data-i18n="buttons.copy">
     Copy card
   </button>
     <button
@@ -638,14 +678,14 @@
   type="button"
   onclick="downloadMarkdownCard()"
   style="display: none; margin-top: 16px; margin-left: 10px; background: #111827;"
->
+ data-i18n="buttons.downloadMarkdown">
   Download Markdown
 </button>
 </section>
 
 <section id="waitlist" class="cta page-view" data-page="waitlist">
-  <h2>Want updates as Agent Permit Card improves?</h2>
-  <p>
+  <h2 data-i18n="waitlist.title">Want updates as Agent Permit Card improves?</h2>
+  <p data-i18n="waitlist.p1">
     Join the waitlist to get updates about new templates, PDF export,
     shareable cards, and AI-assisted permission card generation.
   </p>
@@ -656,18 +696,288 @@
     rel="noopener"
     style="display: inline-block; margin-top: 20px; padding: 14px 22px; border-radius: 10px; background: #4f46e5; color: white; text-decoration: none; font-size: 16px; font-weight: 700;"
   >
-    Join waitlist
+    <span data-i18n="waitlist.button">Join waitlist</span>
   </a>
 </section>
   </main>
 
 <div class="footer">
   <div>© 2026 Agent Permit Card</div>
-  <div>Built by Bedirhan Zerey</div>
+  <div data-i18n="footer.built">Built by Bedirhan Zerey</div>
 </div>
 
 <script>
   let plainCardText = "";
+
+  const translations = {
+    en: {
+      "nav.home": "Home",
+      "nav.generator": "Generator",
+      "nav.examples": "Examples",
+      "nav.why": "Why it matters",
+      "nav.waitlist": "Waitlist",
+      "hero.badge": "AI Agent Permissions",
+      "hero.title": "Give every AI agent a clear permission card.",
+      "hero.subtitle": "Agent Permit Card helps builders define what an AI agent can do, what needs human approval, what is forbidden, what data it can access, and what must be logged.",
+      "hero.primary": "Try generator",
+      "hero.secondary": "Join waitlist",
+      "home.title": "What is an Agent Permit Card?",
+      "home.p1": "An Agent Permit Card is a simple permission profile for an AI agent.",
+      "home.p2": "It shows:",
+      "home.li1": "What the agent can do",
+      "home.li2": "What requires human approval",
+      "home.li3": "What the agent must never do",
+      "home.li4": "What data the agent can access",
+      "home.li5": "What actions must be logged",
+      "home.p3": "Before an AI agent acts, it should carry a permit card.",
+      "examples.title": "Example: Email Assistant",
+      "examples.p1": "A simple permission card for an AI agent that helps with incoming emails.",
+      "examples.agent": "Email Assistant",
+      "examples.headingCanDo": "🟢 Can do",
+      "examples.headingNeedsApproval": "🟡 Needs approval",
+      "examples.headingCannotDo": "🔴 Cannot do",
+      "examples.headingDataAccess": "🔵 Data access",
+      "examples.headingLogs": "⚫ Logs",
+      "examples.can1": "Read incoming emails",
+      "examples.can2": "Draft replies",
+      "examples.can3": "Summarize attachments",
+      "examples.approval1": "Send an email",
+      "examples.approval2": "Forward a document",
+      "examples.approval3": "Update customer records",
+      "examples.cannot1": "Delete emails",
+      "examples.cannot2": "Access payment data",
+      "examples.cannot3": "Send legal or financial statements",
+      "examples.data1": "Email content",
+      "examples.data2": "Sender name and address",
+      "examples.data3": "Attachments marked as safe",
+      "examples.logs1": "Every draft is saved",
+      "examples.logs2": "Every approved action is recorded",
+      "examples.logs3": "Every rejected action is tracked",
+      "why.title": "Why it matters",
+      "why.p1": "AI agents are starting to access real tools: email, files, calendars, CRMs, databases, and internal workflows.",
+      "why.p2": "Without clear permissions, teams cannot easily answer:",
+      "why.li1": "What did this agent do?",
+      "why.li2": "Was it allowed?",
+      "why.li3": "Who approved it?",
+      "why.li4": "Can we audit it later?",
+      "why.p3": "Agent Permit Card makes AI agent permissions easy to understand before anything goes wrong.",
+      "builders.title": "For builders",
+      "builders.p1": "Use Agent Permit Card when designing:",
+      "builders.li1": "AI assistants",
+      "builders.li2": "Customer support agents",
+      "builders.li3": "Sales agents",
+      "builders.li4": "Coding agents",
+      "builders.li5": "Workflow automation agents",
+      "builders.li6": "Internal company agents",
+      "generator.title": "Try the AI-assisted generator",
+      "generator.p1": "Describe your AI agent in plain English or Turkish. Agent Permit Card will turn it into a structured permission draft that you can review, edit, and copy.",
+      "generator.describeLabel": "Describe your agent",
+      "generator.helper": "Mention what the agent does, what tools it connects to, what it can do automatically, and what should require human approval.",
+      "generator.sampleButton": "Use sample description",
+      "generator.generateDraft": "Generate draft",
+      "generator.generateCard": "Generate card",
+      "fields.agentName": "Agent name",
+      "fields.purpose": "Purpose",
+      "fields.canDo": "What can the agent do?",
+      "fields.needsApproval": "What needs human approval?",
+      "fields.cannotDo": "What must the agent never do?",
+      "fields.dataAccess": "What data can the agent access?",
+      "fields.logs": "What must be logged?",
+      "fields.approvalRule": "Approval rule",
+      "fields.reviewNotes": "Review notes",
+      "waitlist.title": "Want updates as Agent Permit Card improves?",
+      "waitlist.p1": "Join the waitlist to get updates about new templates, PDF export, shareable cards, and AI-assisted permission card generation.",
+      "waitlist.button": "Join waitlist",
+      "footer.built": "Built by Bedirhan Zerey",
+      "card.title": "Agent Permit Card",
+      "card.agent": "Agent",
+      "card.purpose": "Purpose",
+      "card.canDo": "Can do",
+      "card.needsApproval": "Needs approval",
+      "card.cannotDo": "Cannot do",
+      "card.dataAccess": "Data access",
+      "card.logs": "Logs",
+      "card.approvalRule": "Approval rule",
+      "card.reviewNotes": "Review notes",
+      "card.notDefined": "Not defined",
+      "buttons.copy": "Copy card",
+      "buttons.copied": "Copied!",
+      "buttons.downloadMarkdown": "Download Markdown",
+      "buttons.generating": "Generating...",
+      "alerts.describeFirst": "Please describe your agent first.",
+      "alerts.aiFailed": "AI generation failed. Please check your OpenAI billing/key or Vercel logs.",
+      "alerts.frontendError": "Something went wrong while generating the card.",
+      "alerts.generateFirst": "Please generate a card first.",
+      "defaults.agentName": "Unnamed Agent",
+      "defaults.purpose": "Not defined",
+      "defaults.approvalRule": "The agent may act automatically only inside the Can do section. Anything under Needs approval must be reviewed by a human before execution. Anything under Cannot do must be blocked completely.",
+      "sample.description": "I’m building an AI support agent connected to Zendesk and Shopify. It should answer simple refund questions and draft replies. It can check order and shipment status. It must ask approval before issuing refunds over $100 or changing customer records. It must never access full payment card data.",
+      "placeholders.agentDescription": "I’m building an AI support agent connected to Zendesk and Shopify. It should answer simple refund questions and draft replies. It can check order and shipment status. It must ask approval before issuing refunds over $100 or changing customer records. It must never access full payment card data.",
+      "placeholders.agentName": "Email Assistant",
+      "placeholders.purpose": "Help the support team answer customer questions safely and consistently.",
+      "placeholders.canDo": "Read incoming emails\nDraft replies\nSummarize attachments",
+      "placeholders.needsApproval": "Send an email\nForward a document\nUpdate customer records",
+      "placeholders.cannotDo": "Delete emails\nAccess payment data\nSend legal statements",
+      "placeholders.dataAccess": "Zendesk ticket content\nOrder status\nShipment status\nMasked payment information only",
+      "placeholders.logs": "Every draft is saved\nEvery approved action is recorded",
+      "placeholders.approvalRule": "Human approval is required before issuing refunds over $100 or changing customer records.",
+      "placeholders.reviewNotes": "Confirm approval limits\nConfirm whether the agent can send messages directly\nConfirm log retention period"
+    },
+    tr: {
+      "nav.home": "Ana sayfa",
+      "nav.generator": "Kart oluşturucu",
+      "nav.examples": "Örnekler",
+      "nav.why": "Neden önemli?",
+      "nav.waitlist": "Bekleme listesi",
+      "hero.badge": "AI Agent İzinleri",
+      "hero.title": "Her AI agent için net bir izin kartı oluştur.",
+      "hero.subtitle": "Agent Permit Card; bir AI agent’ın ne yapabileceğini, ne için insan onayı gerektiğini, neyin yasak olduğunu, hangi verilere erişebileceğini ve neyin loglanması gerektiğini netleştirir.",
+      "hero.primary": "Kart oluşturucuyu dene",
+      "hero.secondary": "Bekleme listesine katıl",
+      "home.title": "Agent Permit Card nedir?",
+      "home.p1": "Agent Permit Card, bir AI agent için basit ve anlaşılır bir izin profilidir.",
+      "home.p2": "Şunları gösterir:",
+      "home.li1": "Agent ne yapabilir?",
+      "home.li2": "Hangi işlemler insan onayı ister?",
+      "home.li3": "Agent neyi asla yapmamalı?",
+      "home.li4": "Hangi verilere erişebilir?",
+      "home.li5": "Hangi işlemler loglanmalı?",
+      "home.p3": "Bir AI agent gerçek aksiyon almadan önce net bir izin kartı taşımalıdır.",
+      "examples.title": "Örnek: E-posta Asistanı",
+      "examples.p1": "Gelen e-postalarla yardımcı olan bir AI agent için basit bir izin kartı.",
+      "examples.agent": "E-posta Asistanı",
+      "examples.headingCanDo": "🟢 Yapabilir",
+      "examples.headingNeedsApproval": "🟡 Onay gerekir",
+      "examples.headingCannotDo": "🔴 Yapamaz",
+      "examples.headingDataAccess": "🔵 Veri erişimi",
+      "examples.headingLogs": "⚫ Loglar",
+      "examples.can1": "Gelen e-postaları okuyabilir",
+      "examples.can2": "Yanıt taslakları hazırlayabilir",
+      "examples.can3": "Güvenli ekleri özetleyebilir",
+      "examples.approval1": "E-posta göndermek",
+      "examples.approval2": "Bir belgeyi iletmek",
+      "examples.approval3": "Müşteri kayıtlarını güncellemek",
+      "examples.cannot1": "E-postaları silmek",
+      "examples.cannot2": "Ödeme verilerine erişmek",
+      "examples.cannot3": "Hukuki veya finansal beyan göndermek",
+      "examples.data1": "E-posta içeriği",
+      "examples.data2": "Gönderen adı ve adresi",
+      "examples.data3": "Güvenli olarak işaretlenmiş ekler",
+      "examples.logs1": "Her taslak kaydedilir",
+      "examples.logs2": "Her onaylı işlem kaydedilir",
+      "examples.logs3": "Her reddedilen işlem takip edilir",
+      "why.title": "Neden önemli?",
+      "why.p1": "AI agent’lar artık e-posta, dosyalar, takvimler, CRM’ler, veritabanları ve iç iş akışları gibi gerçek araçlara erişmeye başlıyor.",
+      "why.p2": "Net izinler olmadan ekipler şu soruları kolayca cevaplayamaz:",
+      "why.li1": "Bu agent ne yaptı?",
+      "why.li2": "Bunu yapmasına izin var mıydı?",
+      "why.li3": "Kim onayladı?",
+      "why.li4": "Bunu sonradan denetleyebilir miyiz?",
+      "why.p3": "Agent Permit Card, sorun çıkmadan önce AI agent izinlerini anlaşılır hale getirir.",
+      "builders.title": "Geliştiriciler için",
+      "builders.p1": "Agent Permit Card şu sistemleri tasarlarken kullanılabilir:",
+      "builders.li1": "AI asistanları",
+      "builders.li2": "Müşteri destek agent’ları",
+      "builders.li3": "Satış agent’ları",
+      "builders.li4": "Kodlama agent’ları",
+      "builders.li5": "İş akışı otomasyon agent’ları",
+      "builders.li6": "Şirket içi agent’lar",
+      "generator.title": "AI destekli kart oluşturucuyu dene",
+      "generator.p1": "AI agent’ını düz Türkçe veya İngilizce anlat. Agent Permit Card bunu inceleyebileceğin, düzenleyebileceğin ve kopyalayabileceğin yapılandırılmış bir izin taslağına çevirir.",
+      "generator.describeLabel": "Agent’ını anlat",
+      "generator.helper": "Agent’ın ne yaptığını, hangi araçlara bağlandığını, neyi otomatik yapabileceğini ve hangi işlemlerde insan onayı gerektiğini yaz.",
+      "generator.sampleButton": "Örnek açıklamayı kullan",
+      "generator.generateDraft": "Taslak oluştur",
+      "generator.generateCard": "Kartı oluştur",
+      "fields.agentName": "Agent adı",
+      "fields.purpose": "Amaç",
+      "fields.canDo": "Agent ne yapabilir?",
+      "fields.needsApproval": "Ne için insan onayı gerekir?",
+      "fields.cannotDo": "Agent neyi asla yapmamalı?",
+      "fields.dataAccess": "Agent hangi verilere erişebilir?",
+      "fields.logs": "Neler loglanmalı?",
+      "fields.approvalRule": "Onay kuralı",
+      "fields.reviewNotes": "İnceleme notları",
+      "waitlist.title": "Agent Permit Card geliştikçe haberdar olmak ister misin?",
+      "waitlist.p1": "Yeni şablonlar, PDF export, paylaşılabilir kartlar ve AI destekli izin kartı oluşturma özellikleri hakkında güncelleme almak için bekleme listesine katıl.",
+      "waitlist.button": "Bekleme listesine katıl",
+      "footer.built": "Bedirhan Zerey tarafından geliştirildi",
+      "card.title": "Agent Permit Card",
+      "card.agent": "Agent",
+      "card.purpose": "Amaç",
+      "card.canDo": "Yapabilir",
+      "card.needsApproval": "Onay gerekir",
+      "card.cannotDo": "Yapamaz",
+      "card.dataAccess": "Veri erişimi",
+      "card.logs": "Loglar",
+      "card.approvalRule": "Onay kuralı",
+      "card.reviewNotes": "İnceleme notları",
+      "card.notDefined": "Tanımlanmadı",
+      "buttons.copy": "Kartı kopyala",
+      "buttons.copied": "Kopyalandı!",
+      "buttons.downloadMarkdown": "Markdown indir",
+      "buttons.generating": "Oluşturuluyor...",
+      "alerts.describeFirst": "Önce agent açıklamasını yaz.",
+      "alerts.aiFailed": "AI üretimi başarısız oldu. OpenAI billing/API key veya Vercel logs kısmını kontrol et.",
+      "alerts.frontendError": "Kart oluşturulurken bir sorun oluştu.",
+      "alerts.generateFirst": "Önce bir kart oluştur.",
+      "defaults.agentName": "Adsız Agent",
+      "defaults.purpose": "Tanımlanmadı",
+      "defaults.approvalRule": "Agent yalnızca Yapabilir bölümündeki işleri otomatik yapabilir. Onay gerekir bölümündeki her işlem insan tarafından incelenmelidir. Yapamaz bölümündeki işlemler tamamen engellenmelidir.",
+      "sample.description": "Zendesk ve Shopify’a bağlı bir AI destek agent’ı geliştiriyorum. Basit iade sorularını cevaplasın ve yanıt taslakları hazırlasın. Sipariş ve kargo durumunu kontrol edebilsin. 100 dolar üzerindeki iadelerden veya müşteri kayıtlarında değişiklik yapmadan önce insan onayı istesin. Tam ödeme kartı verilerine asla erişmesin.",
+      "placeholders.agentDescription": "Zendesk ve Shopify’a bağlı bir AI destek agent’ı geliştiriyorum. Basit iade sorularını cevaplasın ve yanıt taslakları hazırlasın. Sipariş ve kargo durumunu kontrol edebilsin. 100 dolar üzerindeki iadelerden veya müşteri kayıtlarında değişiklik yapmadan önce insan onayı istesin. Tam ödeme kartı verilerine asla erişmesin.",
+      "placeholders.agentName": "E-posta Asistanı",
+      "placeholders.purpose": "Destek ekibinin müşteri sorularını güvenli ve tutarlı şekilde yanıtlamasına yardımcı olur.",
+      "placeholders.canDo": "Gelen e-postaları okuyabilir\nYanıt taslakları hazırlayabilir\nEkleri özetleyebilir",
+      "placeholders.needsApproval": "E-posta göndermek\nBelge iletmek\nMüşteri kayıtlarını güncellemek",
+      "placeholders.cannotDo": "E-postaları silmek\nÖdeme verilerine erişmek\nHukuki beyan göndermek",
+      "placeholders.dataAccess": "Zendesk ticket içeriği\nSipariş durumu\nKargo durumu\nYalnızca maskelenmiş ödeme bilgisi",
+      "placeholders.logs": "Her taslak kaydedilir\nHer onaylı işlem kaydedilir",
+      "placeholders.approvalRule": "100 dolar üzerindeki iadeler veya müşteri kayıtlarında değişiklikler için insan onayı gerekir.",
+      "placeholders.reviewNotes": "Onay limitlerini doğrula\nAgent’ın mesajları doğrudan gönderip gönderemeyeceğini doğrula\nLog saklama süresini doğrula"
+    }
+  };
+
+  let currentLanguage = localStorage.getItem("agentPermitCardLanguage") || "en";
+
+  function t(key) {
+    return translations[currentLanguage][key] || translations.en[key] || key;
+  }
+
+  function setLanguage(language) {
+    currentLanguage = translations[language] ? language : "en";
+    localStorage.setItem("agentPermitCardLanguage", currentLanguage);
+    document.documentElement.lang = currentLanguage;
+
+    document.querySelectorAll("[data-i18n]").forEach(element => {
+      const key = element.dataset.i18n;
+      element.textContent = t(key);
+    });
+
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(element => {
+      const key = element.dataset.i18nPlaceholder;
+      element.placeholder = t(key);
+    });
+
+    document.querySelectorAll("[data-language-button]").forEach(button => {
+      if (button.dataset.languageButton === currentLanguage) {
+        button.classList.add("active");
+      } else {
+        button.classList.remove("active");
+      }
+    });
+
+    const copyCardBtn = document.getElementById("copyCardBtn");
+    if (copyCardBtn && copyCardBtn.textContent !== t("buttons.copied")) {
+      copyCardBtn.textContent = t("buttons.copy");
+    }
+
+    const downloadMarkdownBtn = document.getElementById("downloadMarkdownBtn");
+    if (downloadMarkdownBtn) {
+      downloadMarkdownBtn.textContent = t("buttons.downloadMarkdown");
+    }
+  }
+
 
   function showPage(pageId) {
     const validPages = ["home", "generator", "examples", "why", "waitlist"];
@@ -695,6 +1005,8 @@
   }
 
   window.addEventListener("load", () => {
+    setLanguage(currentLanguage);
+
     const pageFromHash = window.location.hash.replace("#", "");
 
     if (pageFromHash) {
@@ -712,7 +1024,7 @@
 
   function makePlainList(items) {
     if (items.length === 0) {
-      return "- Not defined";
+      return "- " + t("card.notDefined");
     }
 
     return items.map(item => "- " + item).join("\n");
@@ -720,7 +1032,7 @@
 
   function makeHtmlList(items) {
     if (items.length === 0) {
-      return "<li>Not defined</li>";
+      return "<li>" + escapeHtml(t("card.notDefined")) + "</li>";
     }
 
     return items.map(item => "<li>" + escapeHtml(item) + "</li>").join("");
@@ -750,12 +1062,7 @@
   }
 
   function fillSampleDescription() {
-    document.getElementById("agentDescription").value =
-      "I’m building an AI support agent connected to Zendesk and Shopify. " +
-      "It should answer simple refund questions and draft replies. " +
-      "It can check order and shipment status. " +
-      "It must ask approval before issuing refunds over $100 or changing customer records. " +
-      "It must never access full payment card data.";
+    document.getElementById("agentDescription").value = t("sample.description");
 
     generateDraftFromDescription();
   }
@@ -764,13 +1071,13 @@
     const description = document.getElementById("agentDescription").value.trim();
 
     if (description.length === 0) {
-      alert("Please describe your agent first.");
+      alert(t("alerts.describeFirst"));
       return;
     }
 
     const draftButton = document.getElementById("generateDraftBtn");
     const originalButtonText = draftButton.textContent;
-    draftButton.textContent = "Generating...";
+    draftButton.textContent = t("buttons.generating");
     draftButton.disabled = true;
 
     try {
@@ -788,12 +1095,12 @@
 
       if (!response.ok) {
         console.error("API error:", card);
-        alert("AI generation failed. Please check your OpenAI billing/key or Vercel logs.");
+        alert(t("alerts.aiFailed"));
         return;
       }
 
-      document.getElementById("agentName").value = card.agent_name || "Unnamed Agent";
-      document.getElementById("purpose").value = card.purpose || "Not defined";
+      document.getElementById("agentName").value = card.agent_name || t("defaults.agentName");
+      document.getElementById("purpose").value = card.purpose || t("defaults.purpose");
       document.getElementById("canDo").value = (card.can_do || []).join("\n");
       document.getElementById("needsApproval").value = (card.needs_approval || []).join("\n");
       document.getElementById("cannotDo").value = (card.cannot_do || []).join("\n");
@@ -801,13 +1108,13 @@
       document.getElementById("logs").value = (card.logs || []).join("\n");
       document.getElementById("approvalRule").value =
         card.approval_rule ||
-        "The agent may act automatically only inside the Can do section. Anything under Needs approval must be reviewed by a human before execution. Anything under Cannot do must be blocked completely.";
+        t("defaults.approvalRule");
       document.getElementById("reviewNotes").value = (card.review_notes || []).join("\n");
 
       generateCard();
     } catch (error) {
       console.error("Frontend error:", error);
-      alert("Something went wrong while generating the card.");
+      alert(t("alerts.frontendError"));
     } finally {
       draftButton.textContent = originalButtonText;
       draftButton.disabled = false;
@@ -819,8 +1126,8 @@
   }
 
   function generateCard() {
-    const agentName = document.getElementById("agentName").value.trim() || "Unnamed Agent";
-    const purpose = document.getElementById("purpose").value.trim() || "Not defined";
+    const agentName = document.getElementById("agentName").value.trim() || t("defaults.agentName");
+    const purpose = document.getElementById("purpose").value.trim() || t("defaults.purpose");
     const canDo = formatList(document.getElementById("canDo").value);
     const needsApproval = formatList(document.getElementById("needsApproval").value);
     const cannotDo = formatList(document.getElementById("cannotDo").value);
@@ -828,36 +1135,36 @@
     const logs = formatList(document.getElementById("logs").value);
     const approvalRule =
       document.getElementById("approvalRule").value.trim() ||
-      "The agent may act automatically only inside the Can do section. Anything under Needs approval must be reviewed by a human before execution. Anything under Cannot do must be blocked completely.";
+      t("defaults.approvalRule");
     const reviewNotes = formatList(document.getElementById("reviewNotes").value);
 
-plainCardText = `# Agent Permit Card
+plainCardText = `# ${t("card.title")}
 
-## Agent
+## ${t("card.agent")}
 ${agentName}
     
-## Purpose
+## ${t("card.purpose")}
 ${purpose}
     
-## Can do
+## ${t("card.canDo")}
 ${makePlainList(canDo)}
     
-## Needs approval
+## ${t("card.needsApproval")}
 ${makePlainList(needsApproval)}
     
-## Cannot do
+## ${t("card.cannotDo")}
 ${makePlainList(cannotDo)}
     
-## Data access
+## ${t("card.dataAccess")}
 ${makePlainList(dataAccess)}
     
-## Logs
+## ${t("card.logs")}
 ${makePlainList(logs)}
     
-## Approval rule
+## ${t("card.approvalRule")}
 ${approvalRule}
     
-## Review notes
+## ${t("card.reviewNotes")}
 ${makePlainList(reviewNotes)}
 `;
 
@@ -865,49 +1172,49 @@ ${makePlainList(reviewNotes)}
 
     generatedCard.innerHTML = `
       <div class="permit-header">
-        <div class="permit-title">Agent Permit Card</div>
+        <div class="permit-title">${escapeHtml(t("card.title"))}</div>
         <div class="permit-agent">${escapeHtml(agentName)}</div>
       </div>
 
       <div class="permit-grid">
         <div class="permit-block block-data">
-          <h3>🎯 Purpose</h3>
+          <h3>🎯 ${escapeHtml(t("card.purpose"))}</h3>
           <p>${escapeHtml(purpose)}</p>
         </div>
 
         <div class="permit-block block-can">
-          <h3>🟢 Can do</h3>
+          <h3>🟢 ${escapeHtml(t("card.canDo"))}</h3>
           <ul>${makeHtmlList(canDo)}</ul>
         </div>
 
         <div class="permit-block block-approval">
-          <h3>🟡 Needs approval</h3>
+          <h3>🟡 ${escapeHtml(t("card.needsApproval"))}</h3>
           <ul>${makeHtmlList(needsApproval)}</ul>
         </div>
 
         <div class="permit-block block-cannot">
-          <h3>🔴 Cannot do</h3>
+          <h3>🔴 ${escapeHtml(t("card.cannotDo"))}</h3>
           <ul>${makeHtmlList(cannotDo)}</ul>
         </div>
 
         <div class="permit-block block-data">
-          <h3>🔵 Data access</h3>
+          <h3>🔵 ${escapeHtml(t("card.dataAccess"))}</h3>
           <ul>${makeHtmlList(dataAccess)}</ul>
         </div>
 
         <div class="permit-block block-logs">
-          <h3>⚫ Logs</h3>
+          <h3>⚫ ${escapeHtml(t("card.logs"))}</h3>
           <ul>${makeHtmlList(logs)}</ul>
         </div>
       </div>
 
       <div class="approval-rule">
-      <h3>✅ Approval rule</h3>
+      <h3>✅ ${escapeHtml(t("card.approvalRule"))}</h3>
       <p>${escapeHtml(approvalRule)}</p>
     </div>
 
       <div class="approval-rule">
-        <h3>📝 Review notes</h3>
+        <h3>📝 ${escapeHtml(t("card.reviewNotes"))}</h3>
         <ul>${makeHtmlList(reviewNotes)}</ul>
       </div>
     `;
@@ -916,7 +1223,7 @@ ${makePlainList(reviewNotes)}
 
     const copyCardBtn = document.getElementById("copyCardBtn");
     copyCardBtn.style.display = "inline-block";
-    copyCardBtn.textContent = "Copy card";
+    copyCardBtn.textContent = t("buttons.copy");
 
     const downloadMarkdownBtn = document.getElementById("downloadMarkdownBtn");
     downloadMarkdownBtn.style.display = "inline-block";
@@ -926,12 +1233,12 @@ ${makePlainList(reviewNotes)}
     const copyCardBtn = document.getElementById("copyCardBtn");
 
     navigator.clipboard.writeText(plainCardText).then(() => {
-      copyCardBtn.textContent = "Copied!";
+      copyCardBtn.textContent = t("buttons.copied");
     });
   }
   function downloadMarkdownCard() {
   if (!plainCardText) {
-    alert("Please generate a card first.");
+    alert(t("alerts.generateFirst"));
     return;
   }
 
