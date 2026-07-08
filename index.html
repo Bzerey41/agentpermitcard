@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Agent Permit Card</title>
-  <meta name="description" content="A simple permission card for AI agents." />
+  <meta name="description" content="Describe your AI agent and generate a clear permission card before it acts." />
 
   <style>
     body {
@@ -185,6 +185,17 @@
       color: #6b7280;
       margin-top: 6px;
       font-weight: 400;
+    }
+
+    .beta-warning {
+      margin: 18px 0 0;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+      font-size: 14px;
+      font-weight: 800;
     }
 
     .button-row {
@@ -460,10 +471,10 @@
 
       <div class="hero page-view active" data-page="home">
       <div class="badge" data-i18n="hero.badge">AI Agent Permissions</div>
-      <h1 data-i18n="hero.title">Give every AI agent a clear permission card.</h1>
+      <h1 data-i18n="hero.title">Describe your AI agent. Get a clear permission card before it acts.</h1>
       <p class="subtitle" data-i18n="hero.subtitle">
-        Agent Permit Card helps builders define what an AI agent can do,
-        what needs human approval, what is forbidden, what data it can access,
+        Agent Permit Card turns plain English or Turkish descriptions into structured permissions:
+        what the agent can do, what needs approval, what is forbidden, what data it can access,
         and what must be logged.
       </p>
     
@@ -590,8 +601,12 @@
     <section id="generator" class="page-view" data-page="generator">
   <h2 data-i18n="generator.title">Try the AI-assisted generator</h2>
   <p data-i18n="generator.p1">
-    Describe your AI agent in plain English. Agent Permit Card will turn it into
+    Describe your AI agent in plain English or Turkish. Agent Permit Card will turn it into
     a structured permission draft that you can review, edit, and copy.
+  </p>
+
+  <p class="beta-warning" data-i18n="generator.betaWarning">
+    ⚠️ Early beta. Do not enter secrets, private keys, passwords, or sensitive customer data.
   </p>
 
   <div class="description-box">
@@ -717,8 +732,8 @@
       "nav.why": "Why it matters",
       "nav.waitlist": "Waitlist",
       "hero.badge": "AI Agent Permissions",
-      "hero.title": "Give every AI agent a clear permission card.",
-      "hero.subtitle": "Agent Permit Card helps builders define what an AI agent can do, what needs human approval, what is forbidden, what data it can access, and what must be logged.",
+      "hero.title": "Describe your AI agent. Get a clear permission card before it acts.",
+      "hero.subtitle": "Agent Permit Card turns plain English or Turkish descriptions into structured permissions: what the agent can do, what needs approval, what is forbidden, what data it can access, and what must be logged.",
       "hero.primary": "Try generator",
       "hero.secondary": "Join waitlist",
       "home.title": "What is an Agent Permit Card?",
@@ -771,6 +786,7 @@
       "builders.li6": "Internal company agents",
       "generator.title": "Try the AI-assisted generator",
       "generator.p1": "Describe your AI agent in plain English or Turkish. Agent Permit Card will turn it into a structured permission draft that you can review, edit, and copy.",
+      "generator.betaWarning": "⚠️ Early beta. Do not enter secrets, private keys, passwords, or sensitive customer data.",
       "generator.describeLabel": "Describe your agent",
       "generator.helper": "Mention what the agent does, what tools it connects to, what it can do automatically, and what should require human approval.",
       "generator.sampleButton": "Use sample description",
@@ -830,8 +846,8 @@
       "nav.why": "Neden önemli?",
       "nav.waitlist": "Bekleme listesi",
       "hero.badge": "AI Agent İzinleri",
-      "hero.title": "Her AI agent için net bir izin kartı oluştur.",
-      "hero.subtitle": "Agent Permit Card; bir AI agent’ın ne yapabileceğini, ne için insan onayı gerektiğini, neyin yasak olduğunu, hangi verilere erişebileceğini ve neyin loglanması gerektiğini netleştirir.",
+      "hero.title": "AI agent’ını anlat. Harekete geçmeden önce net bir izin kartı oluştur.",
+      "hero.subtitle": "Agent Permit Card, Türkçe veya İngilizce açıklamaları yapılandırılmış izin kartlarına çevirir: agent ne yapabilir, ne için onay gerekir, ne yasaktır, hangi verilere erişebilir ve neler loglanmalıdır.",
       "hero.primary": "Kart oluşturucuyu dene",
       "hero.secondary": "Bekleme listesine katıl",
       "home.title": "Agent Permit Card nedir?",
@@ -884,6 +900,7 @@
       "builders.li6": "Şirket içi agent’lar",
       "generator.title": "AI destekli kart oluşturucuyu dene",
       "generator.p1": "AI agent’ını düz Türkçe veya İngilizce anlat. Agent Permit Card bunu inceleyebileceğin, düzenleyebileceğin ve kopyalayabileceğin yapılandırılmış bir izin taslağına çevirir.",
+      "generator.betaWarning": "⚠️ Erken beta. Gizli anahtar, şifre veya hassas müşteri verisi girmeyin.",
       "generator.describeLabel": "Agent’ını anlat",
       "generator.helper": "Agent’ın ne yaptığını, hangi araçlara bağlandığını, neyi otomatik yapabileceğini ve hangi işlemlerde insan onayı gerektiğini yaz.",
       "generator.sampleButton": "Örnek açıklamayı kullan",
