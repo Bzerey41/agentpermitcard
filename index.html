@@ -639,179 +639,55 @@
     generateDraftFromDescription();
   }
 
-  function generateDraftFromDescription() {
+  async function generateDraftFromDescription() {
     const description = document.getElementById("agentDescription").value.trim();
-    const text = description.toLowerCase();
 
     if (description.length === 0) {
       alert("Please describe your agent first.");
       return;
     }
 
-    let agentName = "AI Agent";
-    let purpose = "Help users complete tasks safely while following clear permission and approval rules.";
+    const draftButton = event.target;
+    const originalButtonText = draftButton.textContent;
+    draftButton.textContent = "Generating...";
+    draftButton.disabled = true;
 
-    const canDo = [];
-    const needsApproval = [];
-    const cannotDo = [];
-    const dataAccess = [];
-    const logs = [];
-    const reviewNotes = [];
+    try {
+      const response = await fetch("/api/generate-card", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          description: description
+        })
+      });
 
-    if (hasAny(text, ["support", "customer", "zendesk", "ticket"])) {
-      agentName = "Customer Support Agent";
-      purpose = "Help the support team answer customer questions using approved support and order context.";
-      canDo.push("Read incoming support tickets");
-      canDo.push("Classify customer intent");
-      canDo.push("Draft support replies");
-      dataAccess.push("Support ticket content");
-      dataAccess.push("Customer name and contact information");
-      logs.push("Ticket ID");
-      logs.push("Suggested reply or action");
-    }
+      const card = await response.json();
 
-    if (hasAny(text, ["shopify", "order", "shipment", "shipping", "delivery"])) {
-      agentName = "E-commerce Support Agent";
-      purpose = "Help the support team answer order, shipment, return, and refund questions using e-commerce context.";
-      canDo.push("Check order status");
-      canDo.push("Check shipment status");
-      dataAccess.push("Order status");
-      dataAccess.push("Shipment status");
-      dataAccess.push("Return eligibility status");
-      logs.push("Order lookup");
-    }
-
-    if (hasAny(text, ["email", "gmail", "inbox"])) {
-      agentName = "Email Assistant";
-      purpose = "Help users review, summarize, and draft email responses safely.";
-      canDo.push("Read incoming emails");
-      canDo.push("Summarize email threads");
-      canDo.push("Draft email replies");
-      needsApproval.push("Send an email");
-      needsApproval.push("Forward an email or attachment");
-      cannotDo.push("Delete emails");
-      dataAccess.push("Email content");
-      dataAccess.push("Sender name and email address");
-      logs.push("Every generated draft");
-    }
-
-    if (hasAny(text, ["refund", "return", "exchange"])) {
-      canDo.push("Answer simple refund and return policy questions");
-      canDo.push("Draft refund or return responses");
-
-      const approvalLimit = extractApprovalLimit(description);
-
-      if (approvalLimit.length > 0) {
-        needsApproval.push("Issue refunds over " + approvalLimit);
-        cannotDo.push("Issue refunds over " + approvalLimit + " without human approval");
-      } else {
-        needsApproval.push("Issue refunds");
-        reviewNotes.push("Confirm the exact refund amount that requires human approval");
+      if (!response.ok) {
+        console.error("API error:", card);
+        alert("AI generation failed. Please check your OpenAI billing/key or Vercel logs.");
+        return;
       }
 
-      needsApproval.push("Approve unusual refund or return cases");
-      dataAccess.push("Refund status");
-      logs.push("Refund-related recommendation");
+      document.getElementById("agentName").value = card.agent_name || "Unnamed Agent";
+      document.getElementById("purpose").value = card.purpose || "Not defined";
+      document.getElementById("canDo").value = (card.can_do || []).join("\n");
+      document.getElementById("needsApproval").value = (card.needs_approval || []).join("\n");
+      document.getElementById("cannotDo").value = (card.cannot_do || []).join("\n");
+      document.getElementById("dataAccess").value = (card.data_access || []).join("\n");
+      document.getElementById("logs").value = (card.logs || []).join("\n");
+      document.getElementById("reviewNotes").value = (card.review_notes || []).join("\n");
+
+      generateCard();
+    } catch (error) {
+      console.error("Frontend error:", error);
+      alert("Something went wrong while generating the card.");
+    } finally {
+      draftButton.textContent = originalButtonText;
+      draftButton.disabled = false;
     }
-
-    if (hasAny(text, ["payment", "credit card", "card data", "billing"])) {
-      cannotDo.push("Access full payment card data");
-      cannotDo.push("Modify payment methods");
-      dataAccess.push("Masked payment information only");
-      logs.push("Payment-related blocked actions");
-    }
-
-    if (hasAny(text, ["customer record", "customer records", "crm", "salesforce", "hubspot"])) {
-      needsApproval.push("Update customer records");
-      cannotDo.push("Delete customer records");
-      dataAccess.push("Customer profile information required for the task");
-      logs.push("Customer record lookup or suggested change");
-    }
-
-    if (hasAny(text, ["calendar", "meeting", "schedule"])) {
-      agentName = "Calendar Assistant";
-      purpose = "Help users plan, summarize, and draft scheduling actions with human approval for changes.";
-      canDo.push("Read calendar availability");
-      canDo.push("Draft meeting suggestions");
-      needsApproval.push("Create, move, or cancel meetings");
-      cannotDo.push("Invite external guests without approval");
-      dataAccess.push("Calendar events and availability");
-      logs.push("Calendar lookup");
-      logs.push("Suggested scheduling action");
-    }
-
-    if (hasAny(text, ["database", "sql", "internal data", "dashboard"])) {
-      agentName = "Internal Data Assistant";
-      purpose = "Help users query and summarize internal data while protecting sensitive information.";
-      canDo.push("Summarize approved internal data");
-      canDo.push("Draft analysis based on permitted datasets");
-      needsApproval.push("Run queries that affect production data");
-      cannotDo.push("Delete or overwrite database records");
-      cannotDo.push("Expose sensitive personal data");
-      dataAccess.push("Approved internal datasets");
-      logs.push("Dataset accessed");
-      logs.push("Query or analysis request");
-    }
-
-    if (hasAny(text, ["code", "coding", "github", "repository", "repo", "pull request"])) {
-      agentName = "Coding Assistant";
-      purpose = "Help developers understand, draft, and review code changes with clear approval rules.";
-      canDo.push("Read repository files");
-      canDo.push("Suggest code changes");
-      canDo.push("Draft pull request descriptions");
-      needsApproval.push("Commit code to a repository");
-      needsApproval.push("Open or merge pull requests");
-      cannotDo.push("Push directly to production branches");
-      cannotDo.push("Modify secrets or environment variables");
-      dataAccess.push("Repository files");
-      dataAccess.push("Issue and pull request metadata");
-      logs.push("Files reviewed");
-      logs.push("Suggested code changes");
-    }
-
-    if (canDo.length === 0) {
-      canDo.push("Draft responses or recommendations based on the user's request");
-      canDo.push("Summarize relevant information");
-      canDo.push("Ask clarifying questions when the request is incomplete");
-    }
-
-    if (needsApproval.length === 0) {
-      needsApproval.push("Take actions that affect customers, money, accounts, records, or external systems");
-      needsApproval.push("Send messages or make changes on behalf of a human");
-    }
-
-    if (cannotDo.length === 0) {
-      cannotDo.push("Take irreversible actions without human approval");
-      cannotDo.push("Access data unrelated to the task");
-      cannotDo.push("Bypass approval rules");
-    }
-
-    if (dataAccess.length === 0) {
-      dataAccess.push("Only the minimum data required to complete the task");
-      dataAccess.push("User-provided context");
-    }
-
-    if (logs.length === 0) {
-      logs.push("User request");
-      logs.push("Agent recommendation");
-      logs.push("Final action taken");
-      logs.push("Whether approval was required");
-    }
-
-    reviewNotes.push("Confirm whether the agent can act directly or only draft recommendations");
-    reviewNotes.push("Confirm log retention period");
-    reviewNotes.push("Confirm who is allowed to approve restricted actions");
-
-    document.getElementById("agentName").value = agentName;
-    document.getElementById("purpose").value = purpose;
-    document.getElementById("canDo").value = removeDuplicates(canDo).join("\n");
-    document.getElementById("needsApproval").value = removeDuplicates(needsApproval).join("\n");
-    document.getElementById("cannotDo").value = removeDuplicates(cannotDo).join("\n");
-    document.getElementById("dataAccess").value = removeDuplicates(dataAccess).join("\n");
-    document.getElementById("logs").value = removeDuplicates(logs).join("\n");
-    document.getElementById("reviewNotes").value = removeDuplicates(reviewNotes).join("\n");
-
-    generateCard();
   }
 
   function removeDuplicates(items) {
