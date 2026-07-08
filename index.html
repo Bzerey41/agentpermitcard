@@ -319,6 +319,72 @@
       font-size: 14px;
     }
 
+
+
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid #e5e7eb;
+      backdrop-filter: blur(14px);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .nav-brand {
+      border: none;
+      background: transparent;
+      color: #111827;
+      padding: 0;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      border: 1px solid transparent;
+      background: transparent;
+      color: #4b5563;
+      padding: 9px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: #eef2ff;
+      color: #4338ca;
+      border-color: #c7d2fe;
+    }
+
+    .page-view {
+      display: none;
+    }
+
+    .page-view.active {
+      display: block;
+    }
+
     @media (max-width: 600px) {
       h1 {
         font-size: 38px;
@@ -336,7 +402,23 @@
 </head>
 
 <body>
-      <div class="hero">
+  <header class="top-nav">
+    <div class="nav-inner">
+      <button type="button" class="nav-brand" onclick="showPage('home')">
+        Agent Permit Card
+      </button>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <button type="button" class="nav-link active" data-nav="home" onclick="showPage('home')">Home</button>
+        <button type="button" class="nav-link" data-nav="generator" onclick="showPage('generator')">Generator</button>
+        <button type="button" class="nav-link" data-nav="examples" onclick="showPage('examples')">Examples</button>
+        <button type="button" class="nav-link" data-nav="why" onclick="showPage('why')">Why it matters</button>
+        <button type="button" class="nav-link" data-nav="waitlist" onclick="showPage('waitlist')">Waitlist</button>
+      </nav>
+    </div>
+  </header>
+
+      <div class="hero page-view active" data-page="home">
       <div class="badge">AI Agent Permissions</div>
       <h1>Give every AI agent a clear permission card.</h1>
       <p class="subtitle">
@@ -346,15 +428,15 @@
       </p>
     
       <div class="hero-actions">
-        <a href="#generator" class="primary-link">Try generator</a>
-        <a href="https://tally.so/r/A75Arl" target="_blank" rel="noopener" class="secondary-link">
+        <a href="#generator" class="primary-link" onclick="showPage('generator')">Try generator</a>
+        <a href="#waitlist" class="secondary-link" onclick="showPage('waitlist')">
           Join waitlist
         </a>
       </div>
     </div>
 
   <main class="container">
-    <section>
+    <section class="page-view active" data-page="home">
       <h2>What is an Agent Permit Card?</h2>
       <p>
         An Agent Permit Card is a simple permission profile for an AI agent.
@@ -372,7 +454,7 @@
       </p>
     </section>
 
-    <section>
+    <section class="page-view" data-page="examples">
       <h2>Example: Email Assistant</h2>
       <p>
         A simple permission card for an AI agent that helps with incoming emails.
@@ -433,7 +515,7 @@
       </div>
     </section>
 
-    <section>
+    <section class="page-view" data-page="why">
       <h2>Why it matters</h2>
       <p>
         AI agents are starting to access real tools: email, files, calendars,
@@ -452,7 +534,7 @@
       </p>
     </section>
 
-    <section>
+    <section class="page-view active" data-page="home">
       <h2>For builders</h2>
       <p>Use Agent Permit Card when designing:</p>
       <ul>
@@ -465,7 +547,7 @@
       </ul>
     </section>
 
-    <section id="generator">
+    <section id="generator" class="page-view" data-page="generator">
   <h2>Try the AI-assisted generator</h2>
   <p>
     Describe your AI agent in plain English. Agent Permit Card will turn it into
@@ -561,7 +643,7 @@
 </button>
 </section>
 
-<section class="cta">
+<section id="waitlist" class="cta page-view" data-page="waitlist">
   <h2>Want updates as Agent Permit Card improves?</h2>
   <p>
     Join the waitlist to get updates about new templates, PDF export,
@@ -586,6 +668,40 @@
 
 <script>
   let plainCardText = "";
+
+  function showPage(pageId) {
+    const validPages = ["home", "generator", "examples", "why", "waitlist"];
+    const selectedPage = validPages.includes(pageId) ? pageId : "home";
+
+    document.querySelectorAll(".page-view").forEach(page => {
+      if (page.dataset.page === selectedPage) {
+        page.classList.add("active");
+      } else {
+        page.classList.remove("active");
+      }
+    });
+
+    document.querySelectorAll("[data-nav]").forEach(button => {
+      if (button.dataset.nav === selectedPage) {
+        button.classList.add("active");
+      } else {
+        button.classList.remove("active");
+      }
+    });
+
+    const hash = selectedPage === "home" ? "" : "#" + selectedPage;
+    history.replaceState(null, "", window.location.pathname + hash);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  window.addEventListener("load", () => {
+    const pageFromHash = window.location.hash.replace("#", "");
+
+    if (pageFromHash) {
+      showPage(pageFromHash);
+    }
+  });
+
 
   function formatList(text) {
     return text
